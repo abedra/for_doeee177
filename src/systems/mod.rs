@@ -13,7 +13,6 @@ mod player_input;
 mod random_move;
 mod tooltips;
 
-
 pub fn build_input_scheduler() -> Schedule {
     Schedule::builder()
         .add_system(player_input::player_input_system())
