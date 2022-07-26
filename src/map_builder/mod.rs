@@ -31,7 +31,7 @@ impl MapBuilder {
             _ => Box::new(CellularAutomataArchitect{})
         };
 
-        let mut mb = architect.new(rng);
+        let mb = architect.new(rng);
         mb
     }
 
