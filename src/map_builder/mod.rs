@@ -9,6 +9,9 @@ use automata::CellularAutomataArchitect;
 mod drunkard;
 use drunkard::DrunkardsWalkArchitect;
 
+mod prefab;
+use prefab::apply_prefab;
+
 const NUM_ROOMS: usize = 20;
 
 trait MapArchitect {
@@ -31,7 +34,8 @@ impl MapBuilder {
             _ => Box::new(CellularAutomataArchitect{})
         };
 
-        let mb = architect.new(rng);
+        let mut mb = architect.new(rng);
+        apply_prefab(&mut mb, rng);
         mb
     }
 
