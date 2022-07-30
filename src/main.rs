@@ -1,5 +1,6 @@
 mod camera;
 mod components;
+mod constants;
 mod map;
 mod map_builder;
 mod spawner;
@@ -17,6 +18,7 @@ mod prelude {
     pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 2;
     pub use crate::camera::*;
     pub use crate::components::*;
+    pub use crate::constants::*;
     pub use crate::map::*;
     pub use crate::map_builder::*;
     pub use crate::spawner::*;
@@ -24,6 +26,7 @@ mod prelude {
     pub use crate::turn_state::*;
 }
 
+use constants::{GAME_OVER, GAME_OVER_REASON, GAME_OVER_ENDING, TRY_AGAIN, TRY_AGAIN_CALL_TO_ACTION, WIN_TEXT, WIN_STORY};
 use prelude::*;
 
 struct State {
@@ -62,26 +65,26 @@ impl State {
 
     fn game_over(&mut self, ctx: &mut BTerm) {
         ctx.set_active_console(2);
-        ctx.print_color_centered(2, RED, BLACK, "Your quest has ended.");
+        ctx.print_color_centered(2, RED, BLACK, GAME_OVER);
         ctx.print_color_centered(
             4,
             WHITE,
             BLACK,
-            "Slain by a monster, your hero's journey has come to a premature end.",
+            GAME_OVER_REASON,
         );
         ctx.print_color_centered(
             5,
             WHITE,
             BLACK,
-            "The Amulet of Yala remains unclaimed, and your home town is not saved.",
+            GAME_OVER_ENDING,
         );
         ctx.print_color_centered(
             8,
             YELLOW,
             BLACK,
-            "Don't worry, you can always try again with a new hero.",
+            TRY_AGAIN,
         );
-        ctx.print_color_centered(9, GREEN, BLACK, "Press 1 to play again.");
+        ctx.print_color_centered(9, GREEN, BLACK, TRY_AGAIN_CALL_TO_ACTION);
 
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
@@ -90,20 +93,20 @@ impl State {
 
     fn victory(&mut self, ctx: &mut BTerm) {
         ctx.set_active_console(2);
-        ctx.print_color_centered(2, GREEN, BLACK, "You hav won!");
+        ctx.print_color_centered(2, GREEN, BLACK, WIN);
         ctx.print_color_centered(
             4,
             WHITE,
             BLACK,
-            "You put on the Amulet of Yala and feel its power course through your veins.",
+            WIN_TEXT,
         );
         ctx.print_color_centered(
             5,
             WHITE,
             BLACK,
-            "Your town is save, and you can return to you normal life.",
+            WIN_STORY,
         );
-        ctx.print_color_centered(7, GREEN, BLACK, "Press 1 to play again.");
+        ctx.print_color_centered(7, GREEN, BLACK, TRY_AGAIN_CALL_TO_ACTION);
 
         if let Some(VirtualKeyCode::Key1) = ctx.key {
             self.reset_game_state();
